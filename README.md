@@ -4,39 +4,43 @@ The primary goal of connection pooling is ability to reuse connection that
 was created at first usage for the following requests.<br>
 Such reusing allows us to get rid of unnecessary initial TCP round trip.<br>
 Sample application allows query resources in two modes - with connection pooling
-and without connection pooling (see _reuseConnection_ param). It makes 10 request
+and without connection pooling (see _reuse_ param). It makes ten request
 to specified resource and prints the time of each request and overall time for all requests.
 
 ### Usage
-java -Durl=https://github.com/ -DreuseConnection=false -jar app.jar
-
-### Results of running with connection reusing
-Staring with https://github.com/ <br>
-req time: 495<br>
-req time: 97<br>
-req time: 62<br>
-req time: 59<br>
-req time: 59<br>
-req time: 65<br>
-req time: 56<br>
-req time: 54<br>
-req time: 61<br>
-req time: 58<br>
-Total time of all requests: 1068<br>
+java -jar app.jar -u _schema://host:port/resource_ -reuse (true|false)
 
 ### Results of running without connection reusing
-Staring with https://github.com/ <br>
-req time: 418<br>
-req time: 330<br>
-req time: 336<br>
-req time: 346<br>
-req time: 339<br>
+% java -jar req.jar -u http://github.com -r false<br>
+Staring with http://github.com<br>
+req time: 500<br>
+req time: 335<br>
+req time: 335<br>
+req time: 356<br>
+req time: 348<br>
+req time: 348<br>
+req time: 332<br>
 req time: 340<br>
-req time: 330<br>
-req time: 337<br>
-req time: 336<br>
 req time: 334<br>
-Total time of all requests: 3447<br>
+req time: 355<br>
+Total time of all requests: 3588<br>
 
-### P.S.
-Do not ask why I used spring or even spring-cloud it this sample.. There is no answer.
+### Results of running with connection reusing
+% java -jar req.jar -u http://github.com -r true<br>
+Staring with http://github.com<br>
+req time: 428<br>
+req time: 101<br>
+req time: 102<br>
+req time: 107<br>
+req time: 103<br>
+req time: 106<br>
+req time: 106<br>
+req time: 108<br>
+req time: 107<br>
+req time: 104<br>
+Total time of all requests: 1375<br>
+
+### Building
+JDK 11 or higher is required to compile and run code.<br>
+To get uber-jar use _mvn package_.
+
